@@ -1,5 +1,10 @@
 # me-in-debt
 
+_it aint your kansas due anymore! tech debt is a pile of compounding interests on a loansharking!_
+
+![urgh](this-is-fine.jpeg)
+
+
 A portable, file-cited technical debt and architecture audit skill for AI coding agents (**Claude Code**, **Cursor**, **Windsurf**, **Aider**, and **OpenCode**).
 
 Supports **Java**, **JavaScript**, **TypeScript**, **Python**, **Go**, and **Rust** — with targeted diagnostics for common frameworks like **Spring Boot**, **Express/Fastify**, and **React/Next.js**.
