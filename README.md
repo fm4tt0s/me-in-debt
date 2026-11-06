@@ -69,11 +69,13 @@ Prompt:
 
 Every framework-specific or high-severity finding in `TECH_DEBT_AUDIT.md` follows a consistent, actionable template:
 
-```markdown
+```text
 ### F-04: Spring AOP Transaction Proxy Bypass on Batch Retry
 - **Target**: `src/main/java/com/app/billing/BillingService.java:142` (Framework: `Spring Boot`)
 - **Evidence**:
-  ```java
+```
+
+```java
   public void processBatch(List<Invoice> invoices) {
       for (Invoice invoice : invoices) {
           // Self-invocation bypasses Spring AOP proxy; @Transactional is silently ignored
@@ -83,7 +85,9 @@ Every framework-specific or high-severity finding in `TECH_DEBT_AUDIT.md` follow
 
   @Transactional(propagation = Propagation.REQUIRES_NEW)
   public void settleInvoiceWithRetry(Invoice invoice) { ... }
-  ```
+```
+
+```text
 - **Impact**: Invoices that encounter transient database disconnects fail without rollback, leaving partial ledger records in an unrecoverable state while reporting successful batch processing to callers.
 - **Focused Remediation Prompt**:
   > In `src/main/java/com/app/billing/BillingService.java:142`, extract `settleInvoiceWithRetry` into a dedicated Spring component `InvoiceSettlementWorker`. Inject `InvoiceSettlementWorker` into `BillingService` so calls route through the Spring AOP transactional proxy. Add an integration test in `src/test/java/com/app/billing/BillingServiceIT.java` that triggers a simulated SQL transient failure and asserts transaction rollback.
@@ -117,4 +121,4 @@ When executed, the skill outputs a citable `TECH_DEBT_AUDIT.md`:
 | **Rust** | `cargo clippy`, `cargo machete`, `cargo audit` |
 
 ## License
-MIT.
+MIT
